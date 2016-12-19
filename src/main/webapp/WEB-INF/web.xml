@@ -1,7 +1,73 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1" metadata-complete="true">
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+    <display-name>spring_nio</display-name>
+    <!-- 可以用System.getProperty("webapp.root")来动态获项目的运行路径 -->
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>spring_nio.root</param-value>
+    </context-param>
+
+    <!-- 设置servlet编码开始 -->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <async-supported>true</async-supported>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+
+
+    <!-- Spring配置文件开始 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-base.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
+    <!-- 用于启动初始化静态资源和停止的时候卸载资源  -->
+    <listener>
+        <listener-class>com.pengcheng.platform.cntxlistener.ResourceLoaderListener</listener-class>
+    </listener>
+    <!-- Spring配置文件结束 -->
+
+
+    <servlet>
+        <servlet-name>spring_nio</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
+    </servlet>
+    <!-- 注册 DispatcherServlet后还应指定有 Spring处理的 url模板 -->
+    <servlet-mapping>
+        <servlet-name>spring_nio</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>-1</session-timeout>
+    </session-config>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
 </web-app>
