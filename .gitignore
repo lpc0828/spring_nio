@@ -14,4 +14,6 @@ hs_err_pid*
 
 tartget/
 .idea
-.*
+*.*
+
+spring_nio.iml
